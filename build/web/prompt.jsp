@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Search PAT</h1>
+        <h1>Enter Route Number</h1>
         <form action="TrackerService" method="GET"> 
             <input type="text" name="input" value="" /><br><br>
             <input type="submit" value="Search" /><br><br>

@@ -51,6 +51,7 @@ public class TrackerService extends HttpServlet {
         }
         
         request.setAttribute("tm", tm);
+        request.setAttribute("error", error);
     	nextView = "result.jsp";
 
     	//direct to the next view as specified

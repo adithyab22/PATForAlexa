@@ -10,5 +10,6 @@ package com.pat.common;
  * @author Adithya
  */
 public class Contants {
-    public static final String KEY = "929FvbAPSEeyexCex5a7aDuus";
+    public static final String KEY = "<your port authority api key>";
+    public static final String GOOGLE_API_KEY = "<your google api key>";
 }

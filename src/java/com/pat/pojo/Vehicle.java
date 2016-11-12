@@ -29,8 +29,8 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String error, String tmstmp, double lat, double lon, int hdg, String pid, String rt, String des, boolean dly, int spd, String tabockid, String zone) {
-        this.error = error;
+    public Vehicle(String tmstmp, double lat, double lon, int hdg, String pid, String rt, String des, boolean dly, int spd, String tabockid, String zone) {
+        this.error = "";
         this.tmstmp = tmstmp;
         this.lat = lat;
         this.lon = lon;
@@ -42,6 +42,11 @@ public class Vehicle {
         this.spd = spd;
         this.tabockid = tabockid;
         this.zone = zone;
+    }
+    
+    public Vehicle(String error, String rt){
+        this.error = error;
+        this.rt = rt;
     }
     public String getError() {
         return error;

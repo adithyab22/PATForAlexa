@@ -13,14 +13,16 @@ package com.pat.pojo;
  * http://truetime.portauthority.org/bustime/api/v2/getvehicles?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&tmres=s&format=json
  */
 public class Vehicle {
+    private int vid;
     private String error;
     private String tmstmp;
     private double lat;
     private double lon;
     private int hdg; //heading
-    private String pid; //pattern id
+    private int pid; //pattern id
     private String rt; //route
     private String des; //destination
+    private int pdist;
     private boolean dly; //delay
     private int spd; //speed
     private String tabockid;
@@ -29,7 +31,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String tmstmp, double lat, double lon, int hdg, String pid, String rt, String des, boolean dly, int spd, String tabockid, String zone) {
+    public Vehicle(int vid, String tmstmp, double lat, double lon, int hdg, int pid, String rt, String des, int pdist, boolean dly, int spd, String tabockid, String zone) {
         this.error = "";
         this.tmstmp = tmstmp;
         this.lat = lat;
@@ -42,6 +44,8 @@ public class Vehicle {
         this.spd = spd;
         this.tabockid = tabockid;
         this.zone = zone;
+        this.pdist = pdist;
+        this.vid = vid;
     }
     
     public Vehicle(String error, String rt){
@@ -88,11 +92,11 @@ public class Vehicle {
         this.hdg = hdg;
     }
 
-    public String getPid() {
+    public int getPid() {
         return pid;
     }
 
-    public void setPid(String pid) {
+    public void setPid(int pid) {
         this.pid = pid;
     }
 
@@ -144,6 +148,20 @@ public class Vehicle {
         this.zone = zone;
     }
     
-    
+    public int getVid() {
+        return vid;
+    }
+
+    public void setVid(int vid) {
+        this.vid = vid;
+    }
+
+    public int getPdist() {
+        return pdist;
+    }
+
+    public void setPdist(int pdist) {
+        this.pdist = pdist;
+    }
     
 }

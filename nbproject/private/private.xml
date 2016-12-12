@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/src/java/com/pat/service/TrackerService.java</file>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/web/prompt.jsp</file>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/web/index.html</file>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/src/java/com/pat/common/Contants.java</file>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/web/result.jsp</file>
+            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/src/java/com/pat/app/LocationTracker.java</file>
+            <file>file:/C:/Users/Adithya/Documents/NetBeansProjects/PATForAlexa/src/java/com/pat/service/MapsService.java</file>
         </group>
     </open-files>
 </project-private>

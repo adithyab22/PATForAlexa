@@ -1,2 +1,6 @@
 <%@page contentType="application/json" pageEncoding="UTF-8"%>
-Time <%= request.getAttribute("tm")%><!--<%= request.getAttribute("error")%>-->
+Stop name near source <%= request.getAttribute("stopName")%><br>
+List of buses at source <%= request.getAttribute("routes")%>
+
+
+

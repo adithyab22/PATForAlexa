@@ -5,12 +5,12 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>TrackerService</servlet-name>
-		<servlet-class>com.pat.service.TrackerService</servlet-class>
+		<servlet-name>MapsService</servlet-name>
+		<servlet-class>com.pat.service.MapsService</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>TrackerService</servlet-name>
-		<url-pattern>/TrackerService</url-pattern>
+		<servlet-name>MapsService</servlet-name>
+		<url-pattern>/MapsService</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>prompt.jsp</welcome-file>

@@ -5,9 +5,13 @@
  */
 package com.pat.service;
 
+import com.pat.app.LocationTracker;
 import com.pat.app.VehicleTracker;
 import com.pat.common.Constants;
+import com.pat.pojo.Coordinates;
+import com.pat.pojo.Stops;
 import com.pat.pojo.Vehicle;
+import com.pat.process.StopsProcessor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +19,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -32,7 +39,7 @@ import org.json.JSONObject;
  * @author Adithya Balasubramanian
  */
 @SuppressWarnings("serial")
-public class TrackerService extends HttpServlet {
+public class MapsService extends HttpServlet {
 
 //    static String error = "";
 //    static String tm = "";
@@ -41,31 +48,36 @@ public class TrackerService extends HttpServlet {
      * Web application that strikes the url and reads JSON output.
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String nextView;
+        String nextView;    
+        StopsProcessor sp = new StopsProcessor();
+        Map<Integer, Stops> map = sp.readFromFile();
         //String url = "http://truetime.portauthority.org/bustime/api/v2/gettime?key=929FvbAPSEeyexCex5a7aDuus&format=json";
-        String routeID = request.getParameter("input");
-        String url = "http://truetime.portauthority.org/bustime/api/v2/getvehicles?key=929FvbAPSEeyexCex5a7aDuus&rt="+routeID+"&tmres=s&format=json";
-        JSONObject json;
-        VehicleTracker track = new VehicleTracker();
+        String currLocation = request.getParameter("source").replaceAll("\\s","+");
+        String locationURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+currLocation+"&sensor=false&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s";
+        String url3 = "http://truetime.portauthority.org/bustime/api/v1/getpredictions?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&stpid=10950";
+       // String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.89458000,-97.14137&sensor=true&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s&rankby=distance&types=bus_station";
+        JSONObject json1;
+        JSONObject json2;
+        LocationTracker track = new LocationTracker();
         try {
-            json = readJsonFromUrl(url);
-            List<Vehicle> list = track.getDetails(json);
-            request.setAttribute("vid", list.get(0).getVid());
-            request.setAttribute("tmstmp", list.get(0).getTmstmp());
-            request.setAttribute("lat", list.get(0).getLat());
-            request.setAttribute("lon", list.get(0).getLon());
-            request.setAttribute("hdg", list.get(0).getHdg());
-            request.setAttribute("pid", list.get(0).getPid());
-            request.setAttribute("rt", list.get(0).getRt());
-            request.setAttribute("des", list.get(0).getDes());
-            request.setAttribute("pdist", list.get(0).getPdist());
-            request.setAttribute("dly", list.get(0).isDly());
-            request.setAttribute("spd", list.get(0).getSpd());
-            request.setAttribute("tablockid", list.get(0).getTabockid());
-            request.setAttribute("zone", list.get(0).getZone());
+            json1 = readJsonFromUrl(locationURL);
+            List<Coordinates> list = track.getDetails(json1);
+            double lat = list.get(0).getLat();
+            double lng =  list.get(0).getLng();
+            String url2 = fillURL(lat, lng);
+            json2 = readJsonFromUrl(url2);
+            List<Coordinates> list2 = track.getDetails(json2);
+            double lat2 = Math.round(list2.get(0).getLat() * 1000000.0) / 1000000.0;
+            double lng2 = Math.round(list2.get(0).getLng() * 1000000.0) / 1000000.0;
+            Stops stop = map.get(sp.generateHash(lat2, lng2));
+            request.setAttribute("stopName", stop.getStopName());
+            request.setAttribute("routes", stop.getRoutes());
+            String s[] = stop.getRoutes().replace("\"", "").split(",");
+            List<String> routes  = new ArrayList<String>();
+            routes.addAll(Arrays.asList(s));
             
-            
-            
+            //String predictionsURL = "http://truetime.portauthority.org/bustime/api/v1/getpredictions?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&stpid=10950";
+           
           //  tm = (json.getJSONObject("bustime-response").get("tm")!=null)?json.getJSONObject("bustime-response").get("tm").toString():"time not available";
           //  error = (json.get("error").toString()!=null)?json.get("error").toString():"";
         } catch (JSONException ex) {
@@ -81,6 +93,9 @@ public class TrackerService extends HttpServlet {
         view.forward(request, response);
     }
     
+    private String fillURL(double x, double y){
+        return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+x+","+y+"&sensor=true&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s&rankby=distance&types=bus_station";
+    }
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;

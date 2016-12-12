@@ -23,7 +23,7 @@ import org.json.JSONObject;
  *
  * @author Adithya
  */
-public class Tracker {
+public class VehicleTracker {
 
     
     /**
@@ -38,39 +38,43 @@ public class Tracker {
 
     public void askAlexa(String routeID, String direction) {
         //where is the nearest 61C towards inbound
-
+        String url = "http://truetime.portauthority.org/bustime/api/v2/getvehicles?key=929FvbAPSEeyexCex5a7aDuus&rt="+routeID.toUpperCase()+"&tmres=s&format=json";
+        
     }
 
     public List<Vehicle> getDetails(JSONObject json) throws JSONException {
         listofVehicles = new ArrayList<>();
         JSONArray vehicles = json.getJSONObject("bustime-response").getJSONArray("vehicle");
-        JSONArray errors = json.getJSONObject("bustime-response").getJSONArray("error");
+//        JSONArray errors = json.getJSONObject("bustime-response").getJSONArray("error");
         if (vehicles != null) {
             for (int i = 0; i < vehicles.length(); i++) {
                 JSONObject vehicle = vehicles.getJSONObject(i);
-                String tmstmp = vehicle.getString("name");
+                String tmstmp = vehicle.getString("tmstmp");
                 double lat = vehicle.getDouble("lat");
                 double lon = vehicle.getDouble("lon");
                 int hdg = vehicle.getInt("hdg");
-                String pid = vehicle.getString("pid");
+                int pid = vehicle.getInt("pid");
                 String rt = vehicle.getString("rt");
                 String des = vehicle.getString("des");
                 boolean dly = vehicle.getBoolean("dly");
                 int spd = vehicle.getInt("spd");
-                String tabockid = vehicle.getString("tabockid");
+                String tablockid = vehicle.getString("tablockid");
                 String zone = vehicle.getString("zone");
-                Vehicle v = new Vehicle(tmstmp, lat, lon, hdg, pid, rt, des, dly, spd, tabockid, zone);
-                listofVehicles.add(v);
-            }
-        }else if(errors!= null) {
-            for(int i=0; i < errors.length(); i++){
-                JSONObject e = errors.getJSONObject(i);
-                String error = e.getString("error");
-                String rt = e.getString("rt");
-                Vehicle v = new Vehicle(error, rt);
+                int pdist = vehicle.getInt("pdist");
+                int vid = vehicle.getInt("vid");
+                Vehicle v = new Vehicle(vid, tmstmp, lat, lon, hdg, pid, rt, des, pdist, dly, spd, tablockid, zone);
                 listofVehicles.add(v);
             }
         }
+//        else if(errors!= null) {
+//            for(int i=0; i < errors.length(); i++){
+//                JSONObject e = errors.getJSONObject(i);
+//                String error = e.getString("error");
+//                String rt = e.getString("rt");
+//                Vehicle v = new Vehicle(error, rt);
+//                listofVehicles.add(v);
+//            }
+        //}
         return listofVehicles;
     }
 }

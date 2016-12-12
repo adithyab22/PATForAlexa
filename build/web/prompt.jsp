@@ -11,9 +11,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Enter Route Number</h1>
-        <form action="TrackerService" method="GET"> 
-            <input type="text" name="input" value="" /><br><br>
+        <h1>Enter Source </h1>
+        <form action="MapsService" method="GET"> 
+            <input type="text" name="source" value="" /><br><br>
+            <h1>Enter Destination</h1><br>
+            <input type="text" name="destination" value="" /><br><br>
             <input type="submit" value="Search" /><br><br>
         </form>
     </body>

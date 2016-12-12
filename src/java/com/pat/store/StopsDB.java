@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pat.common;
+package com.pat.store;
 
 /**
  *
  * @author Adithya
  */
-public class Contants {
-    public static final String KEY = "<your port authority api key>";
-    public static final String GOOGLE_API_KEY = "<your google api key>";
+public class StopsDB {
+    
 }

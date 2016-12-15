@@ -6,6 +6,7 @@
 package com.pat.app;
 
 import com.pat.pojo.Coordinates;
+import com.pat.pojo.Stop;
 import com.pat.pojo.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ import org.json.JSONObject;
  */
 public class LocationTracker {
     List<Coordinates> coordinates = null;
-    public List<Coordinates> getDetails(JSONObject json) throws JSONException {
+    List<Stop> stops = null;
+    public List<Coordinates> getLatLngDetails(JSONObject json) throws JSONException {
         coordinates = new ArrayList<>();
         JSONArray results = json.getJSONArray("results");
 //        JSONArray errors = json.getJSONObject("bustime-response").getJSONArray("error");
@@ -37,5 +39,23 @@ public class LocationTracker {
             }
         }
         return coordinates;
+    }
+    
+    public List<Stop> getStopDetails(JSONObject json) throws JSONException {
+        stops = new ArrayList<>();
+        JSONArray stopsResponse = json.getJSONObject("bustime-response").getJSONArray("stops");
+        
+        if(stopsResponse != null){
+            for (int i = 0; i < stopsResponse.length(); i++) {
+                JSONObject stop = stopsResponse.getJSONObject(i);
+                double lat = stop.getDouble("lat");
+                double lon = stop.getDouble("lon");
+                String stopID = stop.getString("stpid");
+                String stpnm = stop.getString("stpnm");
+                Stop s = new Stop(stopID, stpnm, lat, lon);
+                stops.add(s);
+            }
+        }
+        return stops;
     }
 }

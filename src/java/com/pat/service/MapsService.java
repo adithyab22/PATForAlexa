@@ -6,11 +6,8 @@
 package com.pat.service;
 
 import com.pat.app.LocationTracker;
-import com.pat.app.VehicleTracker;
-import com.pat.common.Constants;
 import com.pat.pojo.Coordinates;
-import com.pat.pojo.Stops;
-import com.pat.pojo.Vehicle;
+import com.pat.pojo.Stop;
 import com.pat.process.StopsProcessor;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,27 +46,32 @@ public class MapsService extends HttpServlet {
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String nextView;    
+        //initialization
         StopsProcessor sp = new StopsProcessor();
-        Map<Integer, Stops> map = sp.readFromFile();
-        //String url = "http://truetime.portauthority.org/bustime/api/v2/gettime?key=929FvbAPSEeyexCex5a7aDuus&format=json";
-        String currLocation = request.getParameter("source").replaceAll("\\s","+");
-        String locationURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+currLocation+"&sensor=false&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s";
-        String url3 = "http://truetime.portauthority.org/bustime/api/v1/getpredictions?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&stpid=10950";
-       // String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.89458000,-97.14137&sensor=true&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s&rankby=distance&types=bus_station";
-        JSONObject json1;
-        JSONObject json2;
+        Map<Integer, Stop> map = sp.readFromFile();
+        
+        //Inputs:
+        String source = request.getParameter("source").replaceAll("\\s","+");
+        String route = request.getParameter("route").trim();
+        String direction = request.getParameter("direction").trim();
+        
+        
+        String currLocationURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+source+"&sensor=false&key=AIzaSyBzW19DGDOi_20t46SazRquCLw9UNp_C8s";
+        String predictionsURL = "http://truetime.portauthority.org/bustime/api/v1/getpredictions?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&stpid=10950";
+        JSONObject currentLocationDetails;
+        JSONObject nearbyBusStationDetails;
         LocationTracker track = new LocationTracker();
         try {
-            json1 = readJsonFromUrl(locationURL);
-            List<Coordinates> list = track.getDetails(json1);
+            currentLocationDetails = readJsonFromUrl(currLocationURL);
+            List<Coordinates> list = track.getLatLngDetails(currentLocationDetails);
             double lat = list.get(0).getLat();
             double lng =  list.get(0).getLng();
-            String url2 = fillURL(lat, lng);
-            json2 = readJsonFromUrl(url2);
-            List<Coordinates> list2 = track.getDetails(json2);
+            String busStationsURL = fillURL(lat, lng);
+            nearbyBusStationDetails = readJsonFromUrl(busStationsURL);
+            List<Coordinates> list2 = track.getLatLngDetails(nearbyBusStationDetails);
             double lat2 = Math.round(list2.get(0).getLat() * 1000000.0) / 1000000.0;
             double lng2 = Math.round(list2.get(0).getLng() * 1000000.0) / 1000000.0;
-            Stops stop = map.get(sp.generateHash(lat2, lng2));
+            Stop stop = map.get(sp.generateHash(lat2, lng2));
             request.setAttribute("stopName", stop.getStopName());
             request.setAttribute("routes", stop.getRoutes());
             String s[] = stop.getRoutes().replace("\"", "").split(",");
@@ -78,8 +80,6 @@ public class MapsService extends HttpServlet {
             
             //String predictionsURL = "http://truetime.portauthority.org/bustime/api/v1/getpredictions?key=929FvbAPSEeyexCex5a7aDuus&rt=61C&stpid=10950";
            
-          //  tm = (json.getJSONObject("bustime-response").get("tm")!=null)?json.getJSONObject("bustime-response").get("tm").toString():"time not available";
-          //  error = (json.get("error").toString()!=null)?json.get("error").toString():"";
         } catch (JSONException ex) {
             Logger.getLogger(TrackerService.class.getName()).log(Level.SEVERE, null, ex);
         }

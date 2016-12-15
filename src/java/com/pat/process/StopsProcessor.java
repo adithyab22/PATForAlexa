@@ -5,7 +5,7 @@
  */
 package com.pat.process;
 
-import com.pat.pojo.Stops;
+import com.pat.pojo.Stop;
 import com.pat.common.Constants;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,17 +21,17 @@ import java.util.StringTokenizer;
  * @author Adithya
  */
 public class StopsProcessor {
-    Map<Integer, Stops> stopsDB = new HashMap<>();
+    Map<Integer, Stop> stopsDB = new HashMap<>();
     /**
-     * need to be replaced by a Database call
+     * need to be replaced by a DynamoDB call
      * @return
      * @throws FileNotFoundException 
      */
-    public Map<Integer, Stops> readFromFile() throws FileNotFoundException {
+    public Map<Integer, Stop> readFromFile() throws FileNotFoundException {
         {
             Scanner scan = new Scanner(new File(Constants.STOPS));
             while (scan.hasNext()) {
-                Stops stop = new Stops();
+                Stop stop = new Stop();
                 String curLine = scan.nextLine();
                 String[] stopDetails = curLine.split("\t");
                 String StopID = stopDetails[0].trim();
@@ -71,4 +71,5 @@ public class StopsProcessor {
        return x.hashCode() + y.hashCode();
     }
    
+    
 }

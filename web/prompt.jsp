@@ -14,8 +14,10 @@
         <h1>Enter Source </h1>
         <form action="MapsService" method="GET"> 
             <input type="text" name="source" value="" /><br><br>
-            <h1>Enter Destination</h1><br>
-            <input type="text" name="destination" value="" /><br><br>
+            <h1>Enter Bus Number</h1><br>
+            <input type="text" name="route" value="" /><br><br>
+            <h1>Which Direction do you want to travel?</h1><br>
+            <input type="text" name="direction" value="" /><br><br>
             <input type="submit" value="Search" /><br><br>
         </form>
     </body>

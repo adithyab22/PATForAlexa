@@ -9,21 +9,27 @@ package com.pat.pojo;
  *
  * @author Adithya
  */
-public class Stops {
+public class Stop {
 
     private String stopID;//Stop ID
     private String stopName;//Description of stop
     private String direction;//inbound/outbound
     private String mode; //bus
-    private double latitude; //latitude
-    private double longitude; //longitude
+    private double lat; //latitude
+    private double lon; //longitude
     private int cleverID; //actual stop ID that shows up on all the apps
     private String routes;//String containing list of comma separated routes
     private String zone; //Zone number
     private String timepoint; //Don't know what this is..just says Yes/ No
     private String shelterOwn; //indicates whether the stop has a shelter
     private String stopType; //indicates type of stop: bus stop/ Train et al.
-
+    
+    public Stop(String stopID, String stopName, double lat, double lon){
+        this.stopID = stopID;
+        this.stopName = stopName;
+        this.lat = lat;
+        this.lon = lon;
+    }
     public String getStopID() {
         return stopID;
     }
@@ -57,19 +63,19 @@ public class Stops {
     }
 
     public double getLatitude() {
-        return latitude;
+        return lat;
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        this.lat = latitude;
     }
 
     public double getLongitude() {
-        return longitude;
+        return lon;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
+        this.lon = longitude;
     }
 
     public int getCleverID() {

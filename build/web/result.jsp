@@ -1,6 +1,9 @@
-<%@page contentType="application/json" pageEncoding="UTF-8"%>
-Stop name near source <%= request.getAttribute("stopName")%><br>
-List of buses at source <%= request.getAttribute("routes")%>
+<html>
+<head><title>Result</title></head>
+<body> 
+
+Nearest stop: <br><%= request.getAttribute("nearestStopName")%> 
 
 
-
+</body>
+</html>

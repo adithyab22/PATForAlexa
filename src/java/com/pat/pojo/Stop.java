@@ -30,6 +30,10 @@ public class Stop {
         this.lat = lat;
         this.lon = lon;
     }
+
+    public Stop() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public String getStopID() {
         return stopID;
     }
